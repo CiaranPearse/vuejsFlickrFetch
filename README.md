@@ -8,15 +8,13 @@ https://github.com/CiaranPearse/reactjsFlickrFetch
 ## Frontend Template
 I've used Vuetify as a frontend Template. The main reasons for this were for the grid, input fields and cards. Why reinvent the wheel?
 
-I've decided to go with the Dark version of the template. Theres no real reason for this other than I want it to be the "one thats just that little bit different"
 
-
-Im not fond of MasonryJs as it tends to give inconsistant & unpredictable layouts in most cases so for this version Ive gone with set heights on the images. (i.e. used the small square version of the image from Flickr)
+I'm not fond of MasonryJs as it tends to give inconsistant & unpredictable layouts in most cases so for this version Ive gone with set heights on the images. (i.e. used the small square version of the image from Flickr)
 The react version uses Masonry
 
 
 ## Tags
-Since I didnt use Masonry I needed predictable height for each block. For this reason the first 3 tags are teimmed and displayed. If there are more than 3 tags a link will be shown with a menu for the remaining tags. These tags are clickable and return the user to the tag page in flickr.
+Since I didnt use Masonry I needed predictable height for each block. For this reason the first 3 tags are trimmed and displayed. If there are more than 3 tags a link will be shown with a menu for the remaining tags. These tags are clickable and return the user to the tag page in flickr.
 
 
 ## Infinate Scroll
