@@ -1,13 +1,7 @@
 <template>
   <v-app>
     <div v-if="loading">
-      <v-container grid-list-md text-xs-center>
-        <v-layout row wrap>
-          <v-flex xs12>
-            <p>Page is loading</p>
-          </v-flex>
-        </v-layout>
-      </v-container>
+      <PageLoading />
     </div>
     <div v-else>
       <v-container grid-list-md>
@@ -26,73 +20,13 @@
           </v-flex>
         </v-layout>
         <div v-if="hasError">
-          <v-alert
-            :value="true"
-            color="error"
-            icon="warning"
-            outline
-          >
-            {{ this.errorMsg }}
-          </v-alert>
+          <ErrorMessage :errorMsg="errorMsg" />
         </div>
         <div v-else>
           <v-layout row wrap v-if="photos.length > 0">
-            <v-flex xs3 v-for="photo in photos" :key="photo.id">
-              <v-card>
-                {{ photo.id }}
-                <v-img
-                  class="white--text"
-                  height="200px"
-                  :src="photo.thumb"
-                >
-                  <v-container fill-height fluid>
-                    <v-layout fill-height>
-                      <v-flex xs12 align-end flexbox>
-                        <span class="headline">{{ photo.title }}</span>
-                      </v-flex>
-                    </v-layout>
-                  </v-container>
-                </v-img>
-                <v-card-title primary-title>
-                  <div>
-                    <span class="grey--text">{{ photo.date }}</span>
-                    <h3 class="headline mb-0">{{ photo.tag }}</h3>
-                    <span v-for="(tag, index) in photo.tags" :key="index">
-                      <span v-if="index < 3">
-                        <v-chip row  class="tagText">
-                          <a :href="'https://www.flickr.com/photos/tags/' + tag" :alt="tag">{{ tag | truncate(10)}}</a>
-                        </v-chip>
-                      </span>
-                    </span>
-                    <div v-if="photo.tagLength > 4">
-                      <v-menu offset-y>
-                        <v-btn
-                          slot="activator"
-                          color="primary"
-                          dark
-                          flat
-                          small
-                        >
-                          {{ photo.tagLength - 3}} more tags
-                        </v-btn>
-                        <v-list v-for="(tag, index) in photo.tags" :key="index" v-if="index >= 3">
-                          <v-list-tile :href="'https://www.flickr.com/photos/tags/' + tag">
-                            <v-list-tile-title>{{ tag }}</v-list-tile-title>
-                          </v-list-tile>
-                        </v-list>
-                      </v-menu>
-                    </div>
-                    <div v-else class="shimNoTags">
-                      &nbsp;
-                    </div>
-                    </span>
-                  </div>
-                </v-card-title>
-                <v-card-actions>
-                  <v-btn v-btn flat small :href="photo.full" target="_blank">Full Sized <v-icon>open_in_new</v-icon></v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-flex>
+            
+              <PhotoCard :photo="photo" v-for="photo in photos" :key="photo.id" />
+           
           </v-layout>
           <v-layout row wrap v-else>
             <h3>Please search for a Tag</h3>
@@ -105,6 +39,9 @@
 
 <script>
 import axios from 'axios'
+import PhotoCard from './components/PhotoCard/'
+import PageLoading from './components/PageLoading/'
+import ErrorMessage from './components/ErrorMessage/'
 export default {
   data () {
     return {
@@ -118,9 +55,11 @@ export default {
       errorMsg: 'Something went wrong!'
     }
   },
-  // components: {
-  //   AtomSpinner
-  // },
+  components: {
+    PhotoCard,
+    PageLoading,
+    ErrorMessage
+  },
   created () {
     this.loading = false
   },
@@ -182,6 +121,7 @@ export default {
       .catch(error => {
         this.hasError = true
         this.errorMsg = 'Something went wrong!'
+        console.log(error)
       })
       this.loading = false
     },
