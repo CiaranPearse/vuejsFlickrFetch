@@ -140,7 +140,6 @@ export default {
       axios.get('https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=' + this.flickrApiKey + '&tags=' + this.searchText + '&extras=description%2C+license%2C+date_upload%2C+date_taken%2C+owner_name%2C+icon_server%2C+original_format%2C+last_update%2C+geo%2C+tags%2C+o_dims%2C+views%2C+media%2C+path_alias%2C+url_sq%2C+url_t%2C+url_s%2C+url_q%2C+url_m%2C+url_n%2C+url_z%2C+url_c%2C+url_l%2C+url_o&per_page=' + this.perPage + '&page=' + this.photoPage + '&format=json&nojsoncallback=1', {
       })
       .then(response => {
-        console.log(response)
         if (response.data.stat === 'fail') {
           this.hasError = true
           this.errorMsg = response.data.message
@@ -152,7 +151,6 @@ export default {
           } else {
             this.hasError = false
             for (var i = 0; i <= (allPhotos.length - 1); i++) {
-              console.log(allPhotos[i].id)
               var photoId = allPhotos[i].id
               var thumbPhoto = allPhotos[i].url_q
               var pathalias = ''
@@ -182,7 +180,6 @@ export default {
         }
       })
       .catch(error => {
-        console.log(error)
         this.hasError = true
         this.errorMsg = 'Something went wrong!'
       })
